@@ -1,0 +1,26 @@
+:root {
+  /* Two-font system: one licensed pair shared across both registers.
+     No webfont files needed — both are ubiquitous system fonts. */
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+
+  --sans-weight-headline: 800;
+  --sans-weight-body: 700;
+  --serif-weight: 400;
+
+  /* Scale — deck-first (slides read at 400px min width, so sizes run large) */
+  --text-eyebrow: 13px;
+  --text-body: 20px;
+  --text-body-lg: 24px;
+  --text-title: 40px;
+  --text-title-lg: 64px;
+  --text-display: 96px;
+  --text-quote: 32px;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+
+  --tracking-eyebrow: 0.12em;
+  --tracking-tight: -0.01em;
+}
