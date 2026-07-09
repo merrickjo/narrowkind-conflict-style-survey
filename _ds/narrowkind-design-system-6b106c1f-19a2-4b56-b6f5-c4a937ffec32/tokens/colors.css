@@ -1,0 +1,26 @@
+:root {
+  /* ---- Deck/Slide register — flat fields, no gradients, no shadows ---- */
+  --field-cover: #B35A2E;       /* burnt orange — cover / closing fields */
+  --field-evidence: #5C2A28;    /* deep maroon — scripture / evidence fields */
+  --field-base: #1E2320;        /* charcoal-green — roadmap/principles/big-idea base */
+  --field-raised: #2B3129;      /* charcoal-green raised — secondary surface on field-base */
+  --card-cream: #F5F1E8;        /* comparison / list cards (same value as illo-cream) */
+  --accent-gold: #E3A15C;       /* deck-only: highlights, thin rules, tags. Max 1-2 per slide */
+
+  /* ---- Illustration/Social register — line art on cream ---- */
+  --illo-cream: #F5F1E8;        /* base surface */
+  --illo-charcoal: #2C2C2C;     /* line art + small text on cream */
+  --illo-coral: #E86441;        /* focal object color, IG accent words */
+  /* --illo-teal / --illo-tan: secondary accents, defined per-use — no fixed hex yet */
+
+  /* ---- Semantic aliases ---- */
+  --text-on-field: var(--card-cream);
+  --text-on-card: var(--illo-charcoal);
+  --surface-cover: var(--field-cover);
+  --surface-evidence: var(--field-evidence);
+  --surface-base: var(--field-base);
+  --surface-raised: var(--field-raised);
+  --surface-card: var(--card-cream);
+  --border-hairline-color: rgba(0, 0, 0, 0.15);
+  --border-hairline-color-on-dark: rgba(245, 241, 232, 0.25);
+}
