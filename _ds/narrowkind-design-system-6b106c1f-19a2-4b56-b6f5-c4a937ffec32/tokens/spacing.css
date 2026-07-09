@@ -1,0 +1,21 @@
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+
+  /* Structure */
+  --hairline: 1px solid var(--border-hairline-color);
+  --hairline-on-dark: 1px solid var(--border-hairline-color-on-dark);
+  --radius: 0px; /* flat system — no rounded corners unless specified */
+  --radius-tag: 2px; /* small tags/badges get a hair of rounding, never full pill */
+
+  /* Negative-space minimum: no field over ~60% populated (see readme Quality Gates) */
+  --slide-padding: var(--space-8);
+  --slide-padding-sm: var(--space-6);
+}
