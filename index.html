@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+          <link rel="stylesheet" href="_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/tokens/colors.css">
+          <link rel="stylesheet" href="_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/tokens/typography.css">
+          <link rel="stylesheet" href="_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/tokens/spacing.css">
+          <link rel="stylesheet" href="_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/styles.css">
+          <script src="_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js"></script>
+          <style>
+                * { box-sizing: border-box; }
+                body { margin: 0; background: var(--field-base); }
+                a { color: var(--accent-gold); }
+                a:hover { color: #eab074; }
+                ::selection { background: var(--accent-gold); color: var(--field-base); }
+              </style>
+      </helmet>
+
+      <div style="min-height:100vh; width:100%; background:var(--field-base); font-family:var(--font-sans); display:flex; flex-direction:column; align-items:center;">
+
+          <div style="width:100%; max-width:760px; padding:32px 24px 0; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font:800 14px/1 var(--font-sans); letter-spacing:.12em; color:var(--card-cream); text-transform:uppercase;">Narrowkind</span>span>
+                <sc-if value="{{ isQuizScreen }}">
+                        <span style="font:700 13px var(--font-sans); letter-spacing:.06em; color:rgba(245,241,232,.55); text-transform:uppercase;">Pertanyaan {{ qNumber }} / {{ totalQuestions }}</span>span>
+                      </sc-if>sc-if>
+          </div>div>
+
+          <sc-if value="{{ isIntroScreen }}" hint-placeholder-val="{{ true }}">
+                <div style="max-width:640px; width:100%; padding:64px 24px 96px;">
+                        <div style="text-transform:uppercase; font:800 13px var(--font-sans); letter-spacing:.12em; color:var(--accent-gold); margin-bottom:20px;">Refleksi Gaya Konflik</div>div>
+                        <h1 style="font:800 40px/1.12 var(--font-sans); color:var(--card-cream); margin:0 0 24px; letter-spacing:-.01em;">Bagaimana Kamu Menghadapi Konflik dalam Rumah Tangga?</h1>h1>
+                        <p style="font:700 20px/1.55 var(--font-sans); color:rgba(245,241,232,.85); margin:0 0 20px;">21 situasi rumah tangga sehari-hari. Untuk tiap situasi, nilai seberapa sesuai tiga reaksi berikut dengan dirimu — bukan dengan siapa yang ingin kamu jadi.</p>p>
+                        <p style="font:700 18px/1.6 var(--font-sans); color:rgba(245,241,232,.65); margin:0 0 40px;">Jawab spontan, jangan terlalu lama berpikir. Tidak ada jawaban benar atau salah — hasilnya untuk membantumu dan pasangan saling memahami cara masing-masing merespons konflik.</p>p>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="primary" size="lg" onClick="{{ goStart }}" hint-size="220px,56px">Mulai Refleksi</x-import>x-import>
+                        <div style="margin-top:20px; font:700 13px var(--font-sans); letter-spacing:.04em; color:rgba(245,241,232,.45);">± 7 menit &middot; 21 situasi</div>div>
+                </div>div>
+              </sc-if>sc-if>
+
+          <sc-if value="{{ isQuizScreen }}">
+                <div style="max-width:760px; width:100%; padding:24px 24px 96px;">
+                        <div style="width:100%; height:4px; background:rgba(245,241,232,.15); margin-bottom:40px;">
+                                  <div style="{{ progressBarStyle }}"></div>div>
+                        </div>div>
+                        <p style="font:800 26px/1.4 var(--font-sans); color:var(--card-cream); margin:0 0 8px;">{{ situation }}</p>p>
+                        <p style="font:700 15px var(--font-sans); color:rgba(245,241,232,.5); margin:0 0 32px;">Seberapa sesuai tiap pernyataan berikut dengan caramu bereaksi?</p>p>
+
+                        <sc-for list="{{ options }}" as="opt" hint-placeholder-count="3">
+                                  <div style="background:var(--field-raised); padding:24px; margin-bottom:16px;">
+                                              <div style="font:700 18px/1.45 var(--font-sans); color:var(--card-cream); margin-bottom:20px;">{{ opt.text }}</div>div>
+                                              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                                                            <span style="font:800 11px var(--font-sans); letter-spacing:.08em; color:rgba(245,241,232,.4); width:88px;">TDK SESUAI</span>span>
+                                                            <sc-for list="{{ opt.scale }}" as="pip" hint-placeholder-count="5">
+                                                                            <button onClick="{{ pip.onClick }}" style="{{ pip.styleObj }}">{{ pip.value }}</button>button>
+                                                                          </sc-for>sc-for>
+                                                            <span style="font:800 11px var(--font-sans); letter-spacing:.08em; color:rgba(245,241,232,.4);">SESUAI</span>span>
+                                              </div>div>
+                                  </div>div>
+                                </sc-for>sc-for>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:32px;">
+                                  <sc-if value="{{ isFirst }}"><div></div></sc-if>sc-if>
+                                <sc-if value="{{ notFirst }}">
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="secondary" size="md" onClick="{{ goPrev }}" hint-size="120px,48px">Kembali</x-import>x-import>
+                                </sc-if>sc-if>
+                                <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="primary" size="md" onClick="{{ goNext }}" disabled="{{ blockNext }}" hint-size="140px,48px">{{ nextLabel }}</x-import>x-import>
+                        </div>
+                </div>
+        </sc-if>sc-if>
+      
+        <sc-if value="{{ isResultsScreen }}">
+          <div style="max-width:720px; width:100%; padding:48px 24px 96px;">
+                  <div style="text-transform:uppercase; font:800 13px var(--font-sans); letter-spacing:.12em; color:var(--accent-gold); margin-bottom:16px;">Hasil Refleksi</div>
+
+                  <sc-if value="{{ isDominantAvoider }}">
+                            <h1 style="font:800 40px/1.1 var(--font-sans); color:var(--card-cream); margin:0 0 10px;">Avoider &mdash; Si Penghindar</h1>h1>
+                            <p style="font:700 20px/1.5 var(--font-sans); font-style:italic; color:rgba(245,241,232,.75); margin:0 0 36px;">&ldquo;Kalau didiamkan, nanti juga selesai sendiri.&rdquo;</p>p>
+                          </sc-if>sc-if>
+                  <sc-if value="{{ isDominantValidator }}">
+                            <h1 style="font:800 40px/1.1 var(--font-sans); color:var(--card-cream); margin:0 0 10px;">Validator</h1>h1>
+                            <p style="font:700 20px/1.5 var(--font-sans); font-style:italic; color:rgba(245,241,232,.75); margin:0 0 36px;">&ldquo;Ayo kita bicarakan baik-baik.&rdquo;</p>p>
+                          </sc-if>sc-if>
+                  <sc-if value="{{ isDominantVolatile }}">
+                            <h1 style="font:800 40px/1.1 var(--font-sans); color:var(--card-cream); margin:0 0 10px;">Volatile &mdash; Si Ekspresif</h1>h1>
+                            <p style="font:700 20px/1.5 var(--font-sans); font-style:italic; color:rgba(245,241,232,.75); margin:0 0 36px;">&ldquo;Lebih baik ribut sekarang daripada dipendam.&rdquo;</p>p>
+                          </sc-if>sc-if>
+
+                  <div style="margin-bottom:48px;">
+                            <div style="margin-bottom:18px;">
+                                        <div style="display:flex; justify-content:space-between; font:700 15px var(--font-sans); color:var(--card-cream); margin-bottom:6px;"><span>Avoider</span><span>{{ percentAvoider }}%</span></div>
+                                      <div style="width:100%; height:10px; background:rgba(245,241,232,.15);"><div style="{{ barAvoiderStyle }}"></div></div>
+                            </div>
+                          <div style="margin-bottom:18px;">
+                                    <div style="display:flex; justify-content:space-between; font:700 15px var(--font-sans); color:var(--card-cream); margin-bottom:6px;"><span>Validator</span><span>{{ percentValidator }}%</span></div>
+                                    <div style="width:100%; height:10px; background:rgba(245,241,232,.15);"><div style="{{ barValidatorStyle }}"></div></div>
+                          </div>
+                          <div>
+                                    <div style="display:flex; justify-content:space-between; font:700 15px var(--font-sans); color:var(--card-cream); margin-bottom:6px;"><span>Volatile</span><span>{{ percentVolatile }}%</span></div>
+                                    <div style="width:100%; height:10px; background:rgba(245,241,232,.15);"><div style="{{ barVolatileStyle }}"></div></div>
+                          </div>
+                  </div>
+          
+                <sc-if value="{{ isDominantAvoider }}">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px;">
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Pola" title="Menenangkan lebih dari menyelesaikan" hint-size="100%,auto">Menghindari konfrontasi, menekankan kesamaan, dan membiarkan waktu yang menyelesaikan masalah.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Kekuatan" title="Rumah tangga yang tenang" hint-size="100%,auto">Jarang mengucapkan sesuatu dalam amarah yang kemudian disesali.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Risiko" title="Jarak yang tak terlihat" hint-size="100%,auto">Masalah terkubur dan muncul kembali sebagai jarak emosional &mdash; pasangan bisa membacanya sebagai sikap tak acuh, padahal bukan itu maksudnya.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" accent="{{ true }}" eyebrow="Area Pertumbuhan" title="Menunda vs menghindari" hint-size="100%,auto">Latih diri membedakan &ldquo;saya menunda pembicaraan ini ke waktu yang tepat&rdquo; dari &ldquo;saya menghindarinya sama sekali.&rdquo;</x-import>x-import>
+                        </div>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Callout" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" reference="Efesus 4:26" surface="evidence" hint-size="100%,auto">Boleh marah, tapi jangan biarkan hari berakhir sementara amarah itu masih membara &mdash; selesaikan sebelum matahari terbenam.</x-import>x-import>
+                        <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Tips Komunikasi</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Jadwalkan waktu khusus untuk bicara, jangan biarkan mengambang tanpa batas waktu.</li>
+                                                            <li>Ganti diam dengan kalimat &ldquo;saya merasa...&rdquo; walau singkat.</li>
+                                                            <li>Latih mengangkat satu hal kecil yang mengganjal setiap minggu.</li>
+                                              </ul>ul>
+                                  </div>
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Gaya Konflik</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Beri kepastian waktu: &ldquo;mari kita bahas setelah makan malam&rdquo;, bukan diam tanpa arah.</li>
+                                                            <li>Sadari bahwa diam bisa terbaca sebagai penolakan, bukan ketenangan.</li>
+                                                            <li>Undang pasangan bicara duluan jika kamu belum siap memulai.</li>
+                                              </ul>ul>
+                                  </div>
+                        </div>
+                      </sc-if>sc-if>
+          
+                <sc-if value="{{ isDominantValidator }}">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px;">
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Pola" title="Empati dulu, solusi kemudian" hint-size="100%,auto">Terlibat dalam konflik tapi memimpin dengan memvalidasi perasaan pasangan sebelum menyelesaikan masalah; memilih pertengkaran dengan sengaja.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Kekuatan" title="Konflik terasa aman" hint-size="100%,auto">Kedua pihak merasa didengar; rumah tangga terasa stabil dan saling menghargai.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Risiko" title="Damai yang dibeli dengan diam" hint-size="100%,auto">Preferensi asli tertahan demi menjaga keharmonisan, sampai akhirnya menjadi kekecewaan yang matang. Sopan bukan berarti jujur.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" accent="{{ true }}" eyebrow="Area Pertumbuhan" title="Ke mana perginya 'tidak setuju'?" hint-size="100%,auto">Perhatikan kapan terakhir kamu bilang &ldquo;iya&rdquo; padahal sebenarnya tidak setuju &mdash; dan latih menyampaikannya dengan kasih.</x-import>x-import>
+                        </div>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Callout" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" reference="Efesus 4:15" surface="evidence" hint-size="100%,auto">Sampaikan kebenaran, tapi bungkus dengan kasih &mdash; itulah cara kita bertumbuh bersama.</x-import>x-import>
+                        <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Tips Komunikasi</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Setelah memvalidasi, tetap sampaikan pendapatmu &mdash; jangan berhenti di &ldquo;saya mengerti perasaanmu.&rdquo;</li>
+                                                            <li>Latih kalimat: &ldquo;saya menghargai pandanganmu, dan saya juga punya pandangan berbeda...&rdquo;</li>
+                                                            <li>Beri diri izin untuk tidak selalu mengalah demi harmoni.</li>
+                                              </ul>ul>
+                                  </div>
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Gaya Konflik</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Buat ruang untuk perbedaan pendapat yang produktif, bukan hanya mencari kata sepakat.</li>
+                                                            <li>Cek berkala: preferensi siapa yang lebih sering mengalah dalam hubungan ini?</li>
+                                                            <li>Kejujuran yang lembut tetap lebih sehat daripada kesopanan yang menyembunyikan.</li>
+                                              </ul>ul>
+                                  </div>
+                        </div>
+                      </sc-if>sc-if>
+          
+                <sc-if value="{{ isDominantVolatile }}">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px;">
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Pola" title="Terlibat penuh, seketika" hint-size="100%,auto">Langsung menghadapi konflik dengan penuh semangat; berargumen keras, tapi juga mencintai dengan penuh ekspresi.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Kekuatan" title="Tidak ada yang mengendap" hint-size="100%,auto">Pasangan ekspresif sering menunjukkan gairah, humor, dan kehangatan terbesar di luar momen konflik.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" eyebrow="Risiko" title="Intensitas yang berubah tajam" hint-size="100%,auto">Intensitas paling cepat berubah menjadi kritik dan penghinaan &mdash; dan titik jenuh emosi (flooding) datang lebih awal.</x-import>x-import>
+                                  <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Card" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" accent="{{ true }}" eyebrow="Area Pertumbuhan" title="Berapi-api vs menyerang" hint-size="100%,auto">Bagaimana pasanganmu tahu bedanya kamu sedang berapi-api dengan kamu sedang menyerang dia?</x-import>x-import>
+                        </div>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Callout" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" reference="Yakobus 1:19&ndash;20" surface="evidence" hint-size="100%,auto">Jadilah cepat mendengar, lambat berkata-kata, dan lambat marah &mdash; sebab kemarahan manusia tidak menghasilkan kebenaran yang Allah kehendaki.</x-import>x-import>
+                        <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Tips Komunikasi</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Kenali tanda tubuh sebelum meluap; ambil jeda 20 menit untuk menenangkan diri (time-out, bukan menghindar).</li>
+                                                            <li>Serang masalahnya, bukan orangnya &mdash; hindari kata &ldquo;selalu&rdquo; dan &ldquo;tidak pernah&rdquo;.</li>
+                                                            <li>Setelah reda, jelaskan maksudmu: &ldquo;saya berapi-api karena ini penting, bukan untuk menyerangmu.&rdquo;</li>
+                                              </ul>ul>
+                                  </div>
+                                  <div style="background:var(--card-cream); padding:28px;">
+                                              <div style="text-transform:uppercase; font:800 12px var(--font-sans); letter-spacing:.1em; color:var(--illo-charcoal); opacity:.55; margin-bottom:14px;">Gaya Konflik</div>
+                                              <ul style="margin:0; padding-left:18px; font:700 16px/1.6 var(--font-sans); color:var(--illo-charcoal);">
+                                                            <li>Sepakati sinyal jeda bersama pasangan sebelum emosi memuncak.</li>
+                                                            <li>Ingat: intensitasmu bisa membangun kedekatan, tapi juga bisa melukai bila tak dikendalikan.</li>
+                                                            <li>Rayakan kehangatan di luar konflik &mdash; itu adalah kekuatan aslimu.</li>
+                                              </ul>ul>
+                                  </div>
+                        </div>
+                      </sc-if>sc-if>
+          
+                <div style="margin-top:48px; display:flex; flex-wrap:wrap; gap:12px;">
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="primary" size="md" onClick="{{ downloadResults }}" hint-size="200px,48px">Unduh Hasil (.txt)</x-import>x-import>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="secondary" size="md" onClick="{{ shareWhatsApp }}" hint-size="200px,48px">Kirim via WhatsApp</x-import>x-import>
+                        <x-import component-from-global-scope="NarrowkindDesignSystem_6b106c.Button" from="./_ds/narrowkind-design-system-6b106c1f-19a2-4b56-b6f5-c4a937ffec32/_ds_bundle.js" variant="ghost" size="md" onClick="{{ restart }}" hint-size="140px,48px">Ulangi Refleksi</x-import>x-import>
+                </div>
+                <div style="margin-top:16px; font:700 13px var(--font-sans); color:rgba(245,241,232,.45);">Berkas .txt berisi rincian skor untuk analisis lanjutan.</div>
+          </div>
+          </sc-if>sc-if>
+      
+      </div>
+    
+    </x-dc>
+  <script type="text/x-dc" data-dc-script>
+  const SCENARIOS = [
+    { situation: "Pasangan lupa hal penting yang sudah dijanjikan (misalnya lupa jemput, atau lupa hal kecil yang kamu anggap penting).", options: [
+      { type: "validator", text: "Saya bilang saya kecewa, tapi saya juga coba mengerti kenapa dia bisa lupa." },
+      { type: "avoider", text: "Saya diam saja, toh kalau saya diamkan juga nanti dia sadar sendiri." },
+      { type: "volatile", text: "Saya langsung bilang saya kesal saat itu juga, tidak saya pendam." },
+    ]},
+    { situation: "Muncul beda pendapat soal pengeluaran besar, misalnya rencana membeli barang mahal.", options: [
+      { type: "volatile", text: "Saya sampaikan keberatan saya dengan tegas dan langsung, walau nadanya jadi tinggi." },
+      { type: "avoider", text: "Saya mengalah saja supaya tidak jadi masalah besar." },
+      { type: "validator", text: "Saya ajak diskusi, dengar dulu alasan dia sebelum saya sampaikan pendapat saya." },
+    ]},
+    { situation: "Setelah bertengkar, malam harinya saat sudah di kasur.", options: [
+      { type: "avoider", text: "Saya pura-pura sudah baikan, biar suasana tidak canggung." },
+      { type: "validator", text: "Saya coba baikan dengan bicara pelan-pelan sebelum tidur." },
+      { type: "volatile", text: "Saya masih ingin membahas sampai tuntas, walau sudah larut malam." },
+    ]},
+    { situation: "Pasangan mengkritik cara saya mengurus rumah atau anak.", options: [
+      { type: "validator", text: "Saya dengarkan dulu, baru saya jelaskan sudut pandang saya." },
+      { type: "volatile", text: "Saya langsung membela diri dan balik mengkritik caranya juga." },
+      { type: "avoider", text: "Saya diam, tidak saya bantah, biar cepat selesai." },
+    ]},
+    { situation: "Ada gesekan dengan mertua atau keluarga besar pasangan.", options: [
+      { type: "volatile", text: "Saya langsung angkat bicara saat itu juga, di depan siapa pun." },
+      { type: "validator", text: "Saya cari waktu khusus untuk membicarakannya baik-baik dengan pasangan." },
+      { type: "avoider", text: "Saya hindari topik itu setiap kali muncul di percakapan." },
+    ]},
+    { situation: "Pasangan meminta maaf setelah berbuat salah kepada saya.", options: [
+      { type: "avoider", text: "Saya langsung bilang \u201Csudah tidak apa-apa\u201D walau sebenarnya masih agak sakit hati." },
+      { type: "volatile", text: "Saya masih butuh melampiaskan kekesalan dulu sebelum bisa benar-benar memaafkan." },
+      { type: "validator", text: "Saya terima permintaan maafnya, tapi saya juga jujur bahwa perasaan saya masih perlu waktu." },
+    ]},
+    { situation: "Rencana liburan atau akhir pekan berdua ternyata tidak sejalan.", options: [
+      { type: "validator", text: "Saya sampaikan preferensi saya, tapi saya juga siap berkompromi." },
+      { type: "avoider", text: "Saya ikut saja rencana dia, tidak enak kalau berdebat soal hal kecil." },
+      { type: "volatile", text: "Saya ngotot dengan pilihan saya kalau saya memang sangat menginginkannya." },
+    ]},
+    { situation: "Pasangan terlihat diam atau menghindar setelah sebuah masalah muncul.", options: [
+      { type: "volatile", text: "Saya jadi tambah frustrasi dan mendesak dia untuk bicara sekarang juga." },
+      { type: "avoider", text: "Saya juga ikut diam, biar sama-sama tenang dulu." },
+      { type: "validator", text: "Saya coba dekati dan tanya baik-baik apa yang sedang dia rasakan." },
+    ]},
+    { situation: "Menerima pesan teks singkat dan terkesan dingin dari pasangan saat sedang ada masalah.", options: [
+      { type: "avoider", text: "Saya tidak membalas dengan nada serupa, saya tunggu sampai suasana lebih tenang." },
+      { type: "validator", text: "Saya balas dengan bertanya baik-baik apakah ada yang mengganggu dia." },
+      { type: "volatile", text: "Saya langsung menelepon untuk tahu apa yang terjadi, tidak bisa menunggu." },
+    ]},
+    { situation: "Ada perbedaan cara beribadah atau praktik iman dalam rumah tangga.", options: [
+      { type: "validator", text: "Saya ajak bicara pelan-pelan untuk mencari titik temu." },
+      { type: "volatile", text: "Saya sampaikan pendapat saya dengan keras karena ini penting buat saya." },
+      { type: "avoider", text: "Saya tidak membahasnya, saya jalani versi saya sendiri diam-diam." },
+    ]},
+    { situation: "Pasangan lupa atau telat merespons hal yang menurut saya penting.", options: [
+      { type: "volatile", text: "Saya tunjukkan kekecewaan saya secara terbuka saat itu juga." },
+      { type: "validator", text: "Saya sampaikan bahwa itu penting buat saya, dengan nada yang baik." },
+      { type: "avoider", text: "Saya anggap itu bukan masalah besar, tidak saya ungkit lagi." },
+    ]},
+    { situation: "Berdebat kecil di depan orang lain, misalnya keluarga atau teman.", options: [
+      { type: "avoider", text: "Saya langsung menghentikan pembicaraan dan mengalihkan topik." },
+      { type: "volatile", text: "Saya sulit menahan diri, kadang tetap saya lanjutkan di depan mereka." },
+      { type: "validator", text: "Saya coba redakan dengan tenang, lanjut bicara berdua saja nanti." },
+    ]},
+    { situation: "Pasangan menyampaikan kritik soal kebiasaan pribadi saya.", options: [
+      { type: "validator", text: "Saya tanya maksudnya lebih jauh sebelum saya menanggapi." },
+      { type: "avoider", text: "Saya terima saja tanpa banyak komentar, walau dalam hati kurang setuju." },
+      { type: "volatile", text: "Saya langsung bereaksi dan menjelaskan alasan saya dengan nada tinggi." },
+    ]},
+    { situation: "Harus menentukan keputusan besar bersama, misalnya pindah rumah atau ganti pekerjaan.", options: [
+      { type: "volatile", text: "Saya dorong keputusan diambil cepat sesuai apa yang saya yakini benar." },
+      { type: "avoider", text: "Saya serahkan sebagian besar keputusan ke pasangan saya." },
+      { type: "validator", text: "Saya ingin kami berdua benar-benar sepakat sebelum memutuskan." },
+    ]},
+    { situation: "Merasa cemburu atau tidak nyaman dengan interaksi pasangan dengan orang lain.", options: [
+      { type: "avoider", text: "Saya simpan sendiri perasaan itu, saya anggap tidak penting untuk dibahas." },
+      { type: "validator", text: "Saya sampaikan perasaan saya dengan tenang dan tanya sudut pandangnya." },
+      { type: "volatile", text: "Saya langsung menunjukkan rasa tidak suka saya, kadang cukup keras." },
+    ]},
+    { situation: "Stres pekerjaan terbawa pulang dan memicu gesekan di rumah.", options: [
+      { type: "validator", text: "Saya beri tahu bahwa saya sedang lelah, sambil tetap terbuka untuk bicara." },
+      { type: "volatile", text: "Emosi saya gampang meluap ke pasangan walau sumbernya dari pekerjaan." },
+      { type: "avoider", text: "Saya lebih memilih menyendiri dulu daripada membahasnya." },
+    ]},
+    { situation: "Pasangan membatalkan janji atau rencana berdua secara mendadak.", options: [
+      { type: "volatile", text: "Saya tunjukkan kekesalan saya secara terang-terangan." },
+      { type: "validator", text: "Saya sampaikan kekecewaan saya secara jujur, tapi tetap dengan pengertian." },
+      { type: "avoider", text: "Saya bilang tidak apa-apa walau sebenarnya kecewa." },
+    ]},
+    { situation: "Perlu membicarakan batasan dengan keluarga besar atau mertua.", options: [
+      { type: "avoider", text: "Saya hindari konfrontasi, saya biarkan pasangan yang mengurusnya." },
+      { type: "volatile", text: "Saya langsung sampaikan batasan saya walau berisiko jadi tegang." },
+      { type: "validator", text: "Saya diskusikan dulu berdua sebelum bicara ke keluarga besar." },
+    ]},
+    { situation: "Pasangan mengatakan sesuatu yang menyakitkan tanpa sadar.", options: [
+      { type: "validator", text: "Saya beri tahu itu menyakitkan buat saya, dengan cara yang baik." },
+      { type: "avoider", text: "Saya tidak bilang itu menyakitkan, saya biarkan berlalu." },
+      { type: "volatile", text: "Saya langsung menunjukkan reaksi saya, kadang cukup tajam." },
+    ]},
+    { situation: "Menjelang tidur setelah hari yang berat, ada hal mengganjal yang belum dibahas.", options: [
+      { type: "volatile", text: "Saya tidak bisa tidur sebelum masalah itu dibahas tuntas." },
+      { type: "avoider", text: "Saya biarkan saja mengambang, besok mungkin sudah lebih baik." },
+      { type: "validator", text: "Saya ajak bicara sebentar sebelum tidur, walau singkat." },
+    ]},
+    { situation: "Secara umum, begini biasanya masalah selesai dalam rumah tangga saya.", options: [
+      { type: "avoider", text: "Biasanya selesai dengan sendirinya seiring waktu, tanpa banyak dibahas." },
+      { type: "validator", text: "Biasanya selesai lewat obrolan yang tenang dan saling memahami." },
+      { type: "volatile", text: "Biasanya selesai setelah ada perdebatan terbuka, baru terasa lega." },
+    ]},
+  ];
+  
+  class Component extends DCLogic {
+    state = { screen: "intro", qIndex: 0, answers: {} };
+  
+    makePip(qIndex, optType, value, selectedValue) {
+      const isSelected = selectedValue === value;
+      return {
+        value,
+        onClick: () => this.setState((s) => {
+          const answers = { ...s.answers };
+          answers[qIndex] = { ...(answers[qIndex] || {}), [optType]: value };
+          return { answers };
+        }),
+        styleObj: {
+          width: 36, height: 36, borderRadius: 0,
+          border: isSelected ? "1px solid var(--accent-gold)" : "1px solid rgba(245,241,232,.25)",
+          background: isSelected ? "var(--accent-gold)" : "transparent",
+          color: isSelected ? "var(--field-base)" : "var(--card-cream)",
+          font: "800 14px var(--font-sans)", cursor: "pointer",
+        },
+      };
+    }
+  
+    renderVals() {
+      const s = this.state;
+      const total = SCENARIOS.length;
+      const scenario = SCENARIOS[s.qIndex];
+      const currentAnswers = s.answers[s.qIndex] || {};
+  
+      const options = scenario ? scenario.options.map((opt) => ({
+        text: opt.text,
+        scale: [1, 2, 3, 4, 5].map((v) => this.makePip(s.qIndex, opt.type, v, currentAnswers[opt.type])),
+      })) : [];
+  
+      const canProceed = scenario ? scenario.options.every((o) => currentAnswers[o.type]) : false;
+      const isLastQuestion = s.qIndex === total - 1;
+  
+      let totals = { avoider: 0, validator: 0, volatile: 0 };
+      Object.values(s.answers).forEach((ans) => {
+        Object.keys(totals).forEach((k) => { totals[k] += ans[k] || 0; });
+      });
+      const sumAll = totals.avoider + totals.validator + totals.volatile || 1;
+      const percentAvoider = Math.round((totals.avoider / sumAll) * 100);
+      const percentValidator = Math.round((totals.validator / sumAll) * 100);
+      const percentVolatile = Math.round((totals.volatile / sumAll) * 100);
+  
+      const maxVal = Math.max(totals.avoider, totals.validator, totals.volatile);
+      const dominantKey = totals.avoider === maxVal ? "avoider" : (totals.validator === maxVal ? "validator" : "volatile");
+      const LABELS = { avoider: "Avoider (Si Penghindar)", validator: "Validator", volatile: "Volatile (Si Ekspresif)" };
+  
+      const buildReport = () => {
+        const lines = [];
+        lines.push("HASIL REFLEKSI GAYA KONFLIK — NARROWKIND");
+        lines.push("Tanggal: " + new Date().toLocaleDateString("id-ID"));
+        lines.push("");
+        lines.push("Tipe dominan: " + LABELS[dominantKey]);
+        lines.push("");
+        lines.push("Breakdown:");
+        lines.push("- Avoider: " + percentAvoiderVal + "%  (skor mentah: " + totals.avoider + ")");
+        lines.push("- Validator: " + percentValidatorVal + "%  (skor mentah: " + totals.validator + ")");
+        lines.push("- Volatile: " + percentVolatileVal + "%  (skor mentah: " + totals.volatile + ")");
+        lines.push("");
+        lines.push("Catatan: skor per tipe dihitung dari 21 skenario x skala 1-5. Simpan berkas ini untuk analisis lanjutan.");
+        return lines.join("\n");
+      };
+  
+      const percentAvoiderVal = percentAvoider;
+      const percentValidatorVal = percentValidator;
+      const percentVolatileVal = percentVolatile;
+  
+      const downloadResults = () => {
+        const text = buildReport();
+        const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "hasil-refleksi-konflik.txt";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+  
+      const shareWhatsApp = () => {
+        const msg = "Hasil Refleksi Gaya Konflik (Narrowkind)\nTipe dominan: " + LABELS[dominantKey] +
+          "\nAvoider " + percentAvoider + "% | Validator " + percentValidator + "% | Volatile " + percentVolatile + "%";
+        const href = "https://wa.me/?text=" + encodeURIComponent(msg);
+        window.open(href, "_blank");
+      };
+  
+      return {
+        isIntroScreen: s.screen === "intro",
+        isQuizScreen: s.screen === "quiz",
+        isResultsScreen: s.screen === "results",
+        qNumber: s.qIndex + 1,
+        totalQuestions: total,
+        progressBarStyle: { height: "100%", background: "var(--accent-gold)", width: ((s.qIndex / total) * 100) + "%" },
+        situation: scenario ? scenario.situation : "",
+        options,
+        canProceed,
+        blockNext: !canProceed,
+        isFirst: s.qIndex === 0,
+       notFirst: s.qIndex !== 0,
+        nextLabel: isLastQuestion ? "Lihat Hasil" : "Lanjut",
+        goStart: () => this.setState({ screen: "quiz", qIndex: 0, answers: {} }),
+        goPrev: () => this.setState((st) => ({ qIndex: Math.max(0, st.qIndex - 1) })),
+        goNext: () => this.setState((st) => {
+          if (st.qIndex === total - 1) return { screen: "results" };
+          return { qIndex: st.qIndex + 1 };
+        }),
+        restart: () => this.setState({ screen: "intro", qIndex: 0, answers: {} }),
+        downloadResults,
+        shareWhatsApp,
+        percentAvoider,
+        percentValidator,
+        percentVolatile,
+        barAvoiderStyle: { height: "100%", background: "var(--accent-gold)", width: percentAvoider + "%" },
+        barValidatorStyle: { height: "100%", background: "var(--accent-gold)", width: percentValidator + "%" },
+        barVolatileStyle: { height: "100%", background: "var(--accent-gold)", width: percentVolatile + "%" },
+        isDominantAvoider: totals.avoider === maxVal,
+        isDominantValidator: totals.validator === maxVal && totals.avoider !== maxVal,
+        isDominantVolatile: totals.volatile === maxVal && totals.avoider !== maxVal && totals.validator !== maxVal,
+      };
+    }
+  }
+  
+  </script>
+  </body>
+</html>
+</li></li></span></span>
+          </div>
+          </style>
+      </helmet>
+    </x-dc>
+  </body>
+  </head>
+</html>
